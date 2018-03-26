@@ -1,0 +1,34 @@
+torus
+0 0 0 25 50
+ident
+move
+0 62.5 0
+apply
+torus
+0 0 0 25 75
+ident
+move
+0 62.5 0
+apply
+torus
+0 0 0 25 100
+ident
+move
+0 62.5 0
+apply
+torus
+0 0 0 25 125
+ident
+move
+0 62.5 0
+apply
+ident
+torus
+0 0 0 25 150
+rotate
+y 90
+move
+250 62.5 0
+apply
+save
+image.png
