@@ -22,7 +22,7 @@ public class Parser {
         }
     }
 
-    public static void execute(Matrix edge, Matrix trans, ArrayList<String> commands, Image i){
+    public static void execute(EdgeMatrix edge, Matrix trans, PolygonMatrix poly, ArrayList<String> commands, Image i){
         int n = 0;
         while (n < commands.size()){
             String c = commands.get(n);
@@ -50,6 +50,7 @@ public class Parser {
                 String[] args = commands.get(n).split(" ");
                 edge.addCurve(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]), Double.parseDouble(args[4]), Double.parseDouble(args[5]), Double.parseDouble(args[6]), Double.parseDouble(args[7]), "hermite");
             }
+            // START CHANGING STUFF HERE!
             else if (c.equals("box")){
                 n ++;
                 String[] args = commands.get(n).split(" ");
@@ -72,7 +73,7 @@ public class Parser {
                 edge.addEdge(new double[] {x + w, y - h, z, 1}, new double[] {x + w, y - h, z - d, 1});
                 edge.addEdge(new double[] {x + w, y - h, z - d, 1}, new double[] {x + w, y, z - d, 1});
             }
-            else if (c.equals("sphere")){
+            /*else if (c.equals("sphere")){
                 n ++;
                 String[] args = commands.get(n).split(" ");
                 Matrix points = Matrix.generateSphere(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
@@ -83,9 +84,11 @@ public class Parser {
                 String[] args = commands.get(n).split(" ");
                 Matrix points = Matrix.generateTorus(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]), Double.parseDouble(args[4]));
                 edge.add3D(points);
-            }
+            }*/
+            // END CHANGING STUFF HERE!
             else if (c.equals("clear")){
-                edge = new Matrix(4, 4);
+                edge = new EdgeMatrix(4, 4);
+                poly = new PolygonMatrix(4, 4);
             }
             else if (c.equals("ident")){
                 trans.ident();
@@ -94,8 +97,10 @@ public class Parser {
                 n ++;
                 String[] args = commands.get(n).split(" ");
                 Matrix scale = new Matrix(4, 4);
-                scale.addEdge(new double[] {Double.parseDouble(args[0]), 0, 0, 0}, new double[] {0, Double.parseDouble(args[1]), 0, 0});
-                scale.addEdge(new double[] {0, 0, Double.parseDouble(args[2]), 0}, new double[] {0, 0, 0, 1});
+                scale.addPoint(new double[] {Double.parseDouble(args[0]), 0, 0, 0});
+                scale.addPoint(new double[] {0, Double.parseDouble(args[1]), 0, 0});
+                scale.addPoint(new double[] {0, 0, Double.parseDouble(args[2]), 0});
+                scale.addPoint(new double[] {0, 0, 0, 1});
                 trans = Matrix.multi(scale, trans);
                 //System.out.println(trans);
             }
@@ -103,8 +108,10 @@ public class Parser {
                 n ++;
                 String[] args = commands.get(n).split(" ");
                 Matrix scale = new Matrix(4, 4);
-                scale.addEdge(new double[] {1, 0, 0, 0}, new double[] {0, 1, 0, 0});
-                scale.addEdge(new double[] {0, 0, 1, 0}, new double[] {Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), 1});
+                scale.addPoint(new double[] {1, 0, 0, 0});
+                scale.addPoint(new double[] {0, 1, 0, 0});
+                scale.addPoint(new double[] {0, 0, 1, 0});
+                scale.addPoint(new double[] {Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), 1});
                 trans = Matrix.multi(scale, trans);
                 //System.out.println(trans);
             }
@@ -116,22 +123,29 @@ public class Parser {
                 double sin = Math.sin(theta);
                 double cos = Math.cos(theta);
                 if (args[0].equals("x")){
-                    scale.addEdge(new double[] {1, 0, 0, 0}, new double[] {0, cos, sin, 0});
-                    scale.addEdge(new double[] {0, -1 * sin, cos, 0}, new double[] {0, 0, 0, 1});
+                    scale.addPoint(new double[] {1, 0, 0, 0});
+                    scale.addPoint(new double[] {0, cos, sin, 0});
+                    scale.addPoint(new double[] {0, -1 * sin, cos, 0});
+                    scale.addPoint(new double[] {0, 0, 0, 1});
                 }
                 else if (args[0].equals("y")){
-                    scale.addEdge(new double[] {cos, 0, -1 * sin, 0}, new double[] {0, 1, 0, 0});
-                    scale.addEdge(new double[] {sin, 0, cos, 0}, new double[] {0, 0, 0, 1});
+                    scale.addPoint(new double[] {cos, 0, -1 * sin, 0});
+                    scale.addPoint(new double[] {0, 1, 0, 0});
+                    scale.addPoint(new double[] {sin, 0, cos, 0});
+                    scale.addPoint(new double[] {0, 0, 0, 1});
                 }
                 else {
-                    scale.addEdge(new double[] {cos, sin, 0, 0}, new double[] {-1 * sin, cos, 0, 0});
-                    scale.addEdge(new double[] {0, 0, 1, 0}, new double[] {0, 0, 0, 1});
+                    scale.addPoint(new double[] {cos, sin, 0, 0});
+                    scale.addPoint(new double[] {-1 * sin, cos, 0, 0});
+                    scale.addPoint(new double[] {0, 0, 1, 0});
+                    scale.addPoint(new double[] {0, 0, 0, 1});
                 }
                 trans = Matrix.multi(scale, trans);
                 //System.out.println(trans);
             }
             else if (c.equals("apply")){
                 edge = Matrix.multi(trans, edge);
+                poly = Matrix.multi(trans, poly);
                 //System.out.println(edge);
             }
             else if (c.equals("display")){
@@ -141,6 +155,7 @@ public class Parser {
                 int g = rand.nextInt(255);
                 int b = rand.nextInt(255);
                 Drawing.drawlines(edge, i, new int[] {r,g,b});
+                // ADD DRAWPOLYGONS HERE!
                 i.draw();
                 Runtime run = Runtime.getRuntime();
                 try {

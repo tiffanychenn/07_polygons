@@ -1,34 +1,73 @@
-torus
-0 0 0 25 50
+bezier
+-39 130 0 0 32 -16 82 -39
 ident
-move
-0 62.5 0
-apply
-torus
-0 0 0 25 75
-ident
-move
-0 62.5 0
-apply
-torus
-0 0 0 25 100
-ident
-move
-0 62.5 0
-apply
-torus
-0 0 0 25 125
-ident
-move
-0 62.5 0
-apply
-ident
-torus
-0 0 0 25 150
+scale
+1.1 0.95 1
 rotate
-y 90
+z 180
 move
-250 62.5 0
+50 95 0
 apply
+bezier
+-39 130 0 0 32 -16 82 -39
+ident
+scale
+1 -1 1
+move
+-300 100 0
+apply
+bezier
+-39 130 0 0 32 -16 82 -39
+ident
+scale
+1.1 0.95 1
+rotate
+z 180
+move
+50 95 0
+apply
+bezier
+-39 130 0 0 32 -16 82 -39
+ident
+scale
+0.73 1 0.73
+move
+-135 210 0
+apply
+bezier
+0 10 0 0 25 0 25 10
+bezier
+-25 10 -25 0 0 0 0 10
+ident
+move
+0 -50 0
+apply
+circle
+0 0 0 5
+ident
+scale
+1.5 1 1
+move
+250 175 0
+apply
+display
+circle
+250 200 0 150
+circle
+150 150 0 25
+circle
+350 150 0 25
+circle
+175 225 0 25
+circle
+325 225 0 25
+circle
+180 230 0 10
+circle
+320 230 0 10
+line
+26 406 0 60 440 0
+line
+484 406 0 452 438 0
 save
 image.png

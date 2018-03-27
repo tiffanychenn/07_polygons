@@ -1,3 +1,3 @@
 # 07_polygons
 
-ze polygons
+ze polyganz

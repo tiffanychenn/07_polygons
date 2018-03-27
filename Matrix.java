@@ -45,54 +45,6 @@ public class Matrix {
         point_number ++;
     }
 
-    public void addEdge(double[] point0, double[] point1){
-        addPoint(point0);
-        addPoint(point1);
-    }
-
-    public void addCircle(double cx, double cy, double cz, double r){
-        double step = 0.01;
-        for (double t = 0; t < 1; t += step){
-            double x0 = r * Math.cos(2 * Math.PI * t) + cx;
-            double y0 = r * Math.sin(2 * Math.PI * t) + cy;
-            double x1 = r * Math.cos(2 * Math.PI * (t + step)) + cx;
-            double y1 = r * Math.sin(2 * Math.PI * (t + step)) + cy;
-            addEdge(new double[] {x0, y0, cz, 1}, new double[] {x1, y1, cz, 1});
-        }
-    }
-
-    public void addCurve(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3, String type){
-        Matrix curve = new Matrix(4, 4);
-        if (type.equals("hermite")){
-            curve.addEdge(new double[] {2, -3, 0, 1}, new double[] {-2, 3, 0, 0});
-            curve.addEdge(new double[] {1, -2, 1, 0}, new double[] {1, -1, 0, 0});
-        }
-        else {
-            curve.addEdge(new double[] {-1, 3, -3, 1}, new double[] {3, -6, 3, 0});
-            curve.addEdge(new double[] {-3, 3, 0, 0}, new double[] {1, 0, 0, 0});
-        }
-        Matrix x = new Matrix(4, 4);
-        x.addPoint(new double[] {x0, x1, x2, x3});
-        Matrix y = new Matrix(4, 4);
-        y.addPoint(new double[] {y0, y1, y2, y3});
-        Matrix xcoefs = multi(curve, x);
-        Matrix ycoefs = multi(curve, y);
-        double step = 0.01;
-        for (double t = 0; t < 1; t += step){
-            double x4 = xcoefs.getNum(0, 0) * Math.pow(t, 3) + xcoefs.getNum(1, 0) * Math.pow(t, 2) + xcoefs.getNum(2, 0) * t + xcoefs.getNum(3, 0);
-            double y4 = ycoefs.getNum(0, 0) * Math.pow(t, 3) + ycoefs.getNum(1, 0) * Math.pow(t, 2) + ycoefs.getNum(2, 0) * t + ycoefs.getNum(3, 0);
-            double x5 = xcoefs.getNum(0, 0) * Math.pow(t + step, 3) + xcoefs.getNum(1, 0) * Math.pow(t + step, 2) + xcoefs.getNum(2, 0) * (t + step) + xcoefs.getNum(3, 0);
-            double y5 = ycoefs.getNum(0, 0) * Math.pow(t + step, 3) + ycoefs.getNum(1, 0) * Math.pow(t + step, 2) + ycoefs.getNum(2, 0) * (t + step) + ycoefs.getNum(3, 0);
-            addEdge(new double[] {x4, y4, 0, 1}, new double[] {x5, y5, 0, 1});
-        }
-    }
-
-    public void add3D(Matrix points){
-        for (int i = 0; i < points.getCols(); i += 2){
-            addEdge(points.getPointDouble(i), points.getPointDouble(i));
-        }
-    }
-
     private void resize(){
         int new_size = point_number + 10;
         double[][] temp = new double[matrix.length][new_size];
@@ -172,6 +124,48 @@ public class Matrix {
 
     public static Matrix multi(Matrix m0, Matrix m1){
         Matrix temp = new Matrix(m0.getRows(), m1.getCols());
+        int n = m0.getCols();
+        //System.out.println("Multiplying\n" + m0 + " with\n" + m1);
+        for (int i = 0; i < m1.getCols(); i ++){
+            double[] nums = new double[m0.getRows()];
+            for (int j = 0; j < m0.getRows(); j ++){
+                double sum = 0;
+                for (int k = 0; k < n; k ++){
+                    //System.out.println(i + " " + j + " " + k);
+                    sum += m0.getNum(j, k) * m1.getNum(k, i);
+                }
+                nums[j] = sum;
+                //System.out.println(sum);
+            }
+            temp.addPoint(nums);
+            //System.out.println("Stage " + i + "\n" + temp + "\n");
+        }
+        return temp;
+    }
+
+    public static PolygonMatrix multi(Matrix m0, PolygonMatrix m1){
+        PolygonMatrix temp = new PolygonMatrix(m0.getRows(), m1.getCols());
+        int n = m0.getCols();
+        //System.out.println("Multiplying\n" + m0 + " with\n" + m1);
+        for (int i = 0; i < m1.getCols(); i ++){
+            double[] nums = new double[m0.getRows()];
+            for (int j = 0; j < m0.getRows(); j ++){
+                double sum = 0;
+                for (int k = 0; k < n; k ++){
+                    //System.out.println(i + " " + j + " " + k);
+                    sum += m0.getNum(j, k) * m1.getNum(k, i);
+                }
+                nums[j] = sum;
+                //System.out.println(sum);
+            }
+            temp.addPoint(nums);
+            //System.out.println("Stage " + i + "\n" + temp + "\n");
+        }
+        return temp;
+    }
+
+    public static EdgeMatrix multi(Matrix m0, EdgeMatrix m1){
+        EdgeMatrix temp = new EdgeMatrix(m0.getRows(), m1.getCols());
         int n = m0.getCols();
         //System.out.println("Multiplying\n" + m0 + " with\n" + m1);
         for (int i = 0; i < m1.getCols(); i ++){
