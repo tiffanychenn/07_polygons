@@ -60,18 +60,18 @@ public class Parser {
                 double w = Double.parseDouble(args[3]);
                 double h = Double.parseDouble(args[4]);
                 double d = Double.parseDouble(args[5]);
-                edge.addEdge(new double[] {x, y, z, 1}, new double[] {x + w, y, z, 1});
-                edge.addEdge(new double[] {x, y, z, 1}, new double[] {x, y - h, z, 1});
-                edge.addEdge(new double[] {x, y, z, 1}, new double[] {x, y, z - d, 1});
-                edge.addEdge(new double[] {x, y - h, z, 1}, new double[] {x + w, y - h, z, 1});
-                edge.addEdge(new double[] {x + w, y - h, z, 1}, new double[] {x + w, y, z, 1});
-                edge.addEdge(new double[] {x, y, z - d, 1}, new double[] {x + w, y, z - d, 1});
-                edge.addEdge(new double[] {x, y - h, z - d, 1}, new double[] {x + w, y - h, z - d, 1});
-                edge.addEdge(new double[] {x, y, z - d, 1}, new double[] {x, y - h, z - d, 1});
-                edge.addEdge(new double[] {x + w, y, z, 1}, new double[] {x + w, y, z - d, 1});
-                edge.addEdge(new double[] {x, y - h, z, 1}, new double[] {x, y - h, z - d, 1});
-                edge.addEdge(new double[] {x + w, y - h, z, 1}, new double[] {x + w, y - h, z - d, 1});
-                edge.addEdge(new double[] {x + w, y - h, z - d, 1}, new double[] {x + w, y, z - d, 1});
+                poly.addPolygon(new double[] {x, y, z, 1}, new double[] {x + w, y, z, 1}, new double[] {x, y - h, z, 1});
+                poly.addPolygon(new double[] {x, y, z - d, 1}, new double[] {x + w, y, z - d, 1}, new double[] {x, y - h, z - d, 1});
+                poly.addPolygon(new double[] {x + w, y - h, z, 1}, new double[] {x + w, y, z, 1}, new double[] {x, y - h, z, 1});
+                poly.addPolygon(new double[] {x + w, y - h, z - d, 1}, new double[] {x + w, y, z - d, 1}, new double[] {x, y - h, z - d, 1});
+                poly.addPolygon(new double[] {x, y, z, 1}, new double[] {x, y, z - d, 1}, new double[] {x, y - h, z, 1});
+                poly.addPolygon(new double[] {x, y, z - d, 1}, new double[] {x, y - h, z, 1}, new double[] {x, y - h, z - d, 1});
+                poly.addPolygon(new double[] {x + w, y, z, 1}, new double[] {x + w, y, z - d, 1}, new double[] {x + w, y - h, z, 1});
+                poly.addPolygon(new double[] {x + w, y, z - d, 1}, new double[] {x + w, y - h, z, 1}, new double[] {x + w, y - h, z - d, 1});
+                poly.addPolygon(new double[] {x, y, z, 1}, new double[] {x + w, y, z - d, 1}, new double[] {x + w, y, z, 1});
+                poly.addPolygon(new double[] {x, y, z, 1}, new double[] {x, y, z - d, 1}, new double[] {x + w, y, z - d, 1});
+                poly.addPolygon(new double[] {x, y - h, z, 1}, new double[] {x + w, y - h, z - d, 1}, new double[] {x + w, y - h, z, 1});
+                poly.addPolygon(new double[] {x, y - h, z, 1}, new double[] {x, y - h, z - d, 1}, new double[] {x + w, y - h, z - d, 1});
             }
             /*else if (c.equals("sphere")){
                 n ++;
@@ -155,7 +155,7 @@ public class Parser {
                 int g = rand.nextInt(255);
                 int b = rand.nextInt(255);
                 Drawing.drawlines(edge, i, new int[] {r,g,b});
-                // ADD DRAWPOLYGONS HERE!
+                Drawing.drawpolygons(poly, i, new int[] {r,g,b});
                 i.draw();
                 Runtime run = Runtime.getRuntime();
                 try {

@@ -1,5 +1,16 @@
 public class Drawing {
 
+    public static void drawpolygons(Matrix m, Image i, int[] color){
+        for (int j = 0; j + 2 < m.getCols(); j += 3){
+			int[] point0 = m.getPoint(j);
+			int[] point1 = m.getPoint(j + 1);
+			int[] point2 = m.getPoint(j + 2);
+			drawline(point0[0], point0[1], point0[2], point1[0], point1[1], point1[2], i, color);
+			drawline(point0[0], point0[1], point0[2], point2[0], point2[1], point2[2], i, color);
+			drawline(point2[0], point2[1], point2[2], point1[0], point1[1], point1[2], i, color);
+        }
+    }
+
 	public static void drawlines(Matrix m, Image i, int[] color){
 		for (int j = 0; j + 1 < m.getCols(); j += 2){
 			int[] point0 = m.getPoint(j);

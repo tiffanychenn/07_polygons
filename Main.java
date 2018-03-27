@@ -7,7 +7,7 @@ public class Main {
         EdgeMatrix edge = new EdgeMatrix(4, 4);
         Matrix trans = new Matrix(4, 4);
         PolygonMatrix poly = new PolygonMatrix(4, 4);
-        ArrayList<String> commands = Parser.parse("script1");
+        ArrayList<String> commands = Parser.parse("script");
         Parser.execute(edge, trans, poly, commands, i);
     }
 
