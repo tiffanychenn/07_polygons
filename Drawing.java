@@ -5,9 +5,11 @@ public class Drawing {
 			int[] point0 = m.getPoint(j);
 			int[] point1 = m.getPoint(j + 1);
 			int[] point2 = m.getPoint(j + 2);
-			drawline(point0[0], point0[1], point0[2], point1[0], point1[1], point1[2], i, color);
-			drawline(point0[0], point0[1], point0[2], point2[0], point2[1], point2[2], i, color);
-			drawline(point2[0], point2[1], point2[2], point1[0], point1[1], point1[2], i, color);
+            if (viewable(point0, point1, point2)){
+			    drawline(point0[0], point0[1], point0[2], point1[0], point1[1], point1[2], i, color);
+			    drawline(point0[0], point0[1], point0[2], point2[0], point2[1], point2[2], i, color);
+			    drawline(point2[0], point2[1], point2[2], point1[0], point1[1], point1[2], i, color);
+            }
         }
     }
 
@@ -162,6 +164,13 @@ public class Drawing {
             d += 2 * a;
         }
         return;
+    }
+
+    private static boolean viewable(int[] point0, int[] point1, int[] point2){
+        int[] a = new int[] {point1[0] - point0[0], point1[1] - point0[1]};
+        int[] b = new int[] {point2[0] - point0[0], point2[1] - point0[1]};
+        int z = a[0] * b[1] - a[1] * b[0];
+        return z > 0;
     }
 
 }

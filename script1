@@ -1,73 +1,24 @@
-bezier
--39 130 0 0 32 -16 82 -39
+#test box mesh
+box
+0 100 0 200 100 50
+torus
+200 100 -25 10 15
 ident
-scale
-1.1 0.95 1
 rotate
-z 180
-move
-50 95 0
-apply
-bezier
--39 130 0 0 32 -16 82 -39
-ident
-scale
-1 -1 1
-move
--300 100 0
-apply
-bezier
--39 130 0 0 32 -16 82 -39
-ident
-scale
-1.1 0.95 1
+x 20
 rotate
-z 180
-move
-50 95 0
-apply
-bezier
--39 130 0 0 32 -16 82 -39
-ident
-scale
-0.73 1 0.73
-move
--135 210 0
-apply
-bezier
-0 10 0 0 25 0 25 10
-bezier
--25 10 -25 0 0 0 0 10
-ident
-move
-0 -50 0
-apply
-circle
-0 0 0 5
-ident
-scale
-1.5 1 1
-move
-250 175 0
+y 20
 apply
 display
-circle
-250 200 0 150
-circle
-150 150 0 25
-circle
-350 150 0 25
-circle
-175 225 0 25
-circle
-325 225 0 25
-circle
-180 230 0 10
-circle
-320 230 0 10
-line
-26 406 0 60 440 0
-line
-484 406 0 452 438 0
+#clear the edge matrix, test the sphere
+sphere
+0 0 0 50
+sphere
+200 0 0 20
+ident
+move
+250 250 0
+apply
+display
 save
 image.png

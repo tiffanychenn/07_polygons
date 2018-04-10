@@ -9,6 +9,12 @@ public class Main {
         PolygonMatrix poly = new PolygonMatrix(4, 4);
         ArrayList<String> commands = Parser.parse("script");
         Parser.execute(edge, trans, poly, commands, i);
+        i = new Image(new int[] {255, 255, 255});
+        edge = new EdgeMatrix(4, 4);
+        trans = new Matrix(4, 4);
+        poly = new PolygonMatrix(4, 4);
+        commands = Parser.parse("script1");
+        Parser.execute(edge, trans, poly, commands, i);
     }
 
 }

@@ -54,37 +54,37 @@ public class Parser {
             else if (c.equals("box")){
                 n ++;
                 String[] args = commands.get(n).split(" ");
-                double x = Double.parseDouble(args[0]);
-                double y = Double.parseDouble(args[1]);
-                double z = Double.parseDouble(args[2]);
-                double w = Double.parseDouble(args[3]);
-                double h = Double.parseDouble(args[4]);
-                double d = Double.parseDouble(args[5]);
-                poly.addPolygon(new double[] {x, y, z, 1}, new double[] {x + w, y, z, 1}, new double[] {x, y - h, z, 1});
-                poly.addPolygon(new double[] {x, y, z - d, 1}, new double[] {x + w, y, z - d, 1}, new double[] {x, y - h, z - d, 1});
-                poly.addPolygon(new double[] {x + w, y - h, z, 1}, new double[] {x + w, y, z, 1}, new double[] {x, y - h, z, 1});
-                poly.addPolygon(new double[] {x + w, y - h, z - d, 1}, new double[] {x + w, y, z - d, 1}, new double[] {x, y - h, z - d, 1});
-                poly.addPolygon(new double[] {x, y, z, 1}, new double[] {x, y, z - d, 1}, new double[] {x, y - h, z, 1});
-                poly.addPolygon(new double[] {x, y, z - d, 1}, new double[] {x, y - h, z, 1}, new double[] {x, y - h, z - d, 1});
-                poly.addPolygon(new double[] {x + w, y, z, 1}, new double[] {x + w, y, z - d, 1}, new double[] {x + w, y - h, z, 1});
-                poly.addPolygon(new double[] {x + w, y, z - d, 1}, new double[] {x + w, y - h, z, 1}, new double[] {x + w, y - h, z - d, 1});
-                poly.addPolygon(new double[] {x, y, z, 1}, new double[] {x + w, y, z - d, 1}, new double[] {x + w, y, z, 1});
-                poly.addPolygon(new double[] {x, y, z, 1}, new double[] {x, y, z - d, 1}, new double[] {x + w, y, z - d, 1});
-                poly.addPolygon(new double[] {x, y - h, z, 1}, new double[] {x + w, y - h, z - d, 1}, new double[] {x + w, y - h, z, 1});
-                poly.addPolygon(new double[] {x, y - h, z, 1}, new double[] {x, y - h, z - d, 1}, new double[] {x + w, y - h, z - d, 1});
+                double x0 = Double.parseDouble(args[0]);
+                double y0 = Double.parseDouble(args[1]);
+                double z0 = Double.parseDouble(args[2]);
+                double x1 = x0 + Double.parseDouble(args[3]);
+                double y1 = y0 - Double.parseDouble(args[4]);
+                double z1 = z0 - Double.parseDouble(args[5]);
+                poly.addPolygon(new double[] {x0, y0, z0, 1}, new double[] {x0, y1, z0, 1}, new double[] {x1, y0, z0, 1});
+                poly.addPolygon(new double[] {x0, y0, z1, 1}, new double[] {x1, y0, z1, 1}, new double[] {x0, y1, z1, 1});
+                poly.addPolygon(new double[] {x1, y1, z0, 1}, new double[] {x1, y0, z0, 1}, new double[] {x0, y1, z0, 1});
+                poly.addPolygon(new double[] {x1, y1, z1, 1}, new double[] {x0, y1, z1, 1}, new double[] {x1, y0, z1, 1});
+                poly.addPolygon(new double[] {x0, y0, z0, 1}, new double[] {x0, y0, z1, 1}, new double[] {x0, y1, z0, 1});
+                poly.addPolygon(new double[] {x0, y0, z1, 1}, new double[] {x0, y1, z1, 1}, new double[] {x0, y1, z0, 1});
+                poly.addPolygon(new double[] {x1, y0, z0, 1}, new double[] {x1, y1, z0, 1}, new double[] {x1, y0, z1, 1});
+                poly.addPolygon(new double[] {x1, y0, z1, 1}, new double[] {x1, y1, z0, 1}, new double[] {x1, y1, z1, 1});
+                poly.addPolygon(new double[] {x0, y0, z0, 1}, new double[] {x1, y0, z0, 1}, new double[] {x1, y0, z1, 1});
+                poly.addPolygon(new double[] {x0, y0, z0, 1}, new double[] {x1, y0, z1, 1}, new double[] {x0, y0, z1, 1});
+                poly.addPolygon(new double[] {x0, y1, z0, 1}, new double[] {x1, y1, z1, 1}, new double[] {x1, y1, z0, 1});
+                poly.addPolygon(new double[] {x0, y1, z0, 1}, new double[] {x0, y1, z1, 1}, new double[] {x1, y1, z1, 1});
             }
-            /*else if (c.equals("sphere")){
+            else if (c.equals("sphere")){
                 n ++;
                 String[] args = commands.get(n).split(" ");
                 Matrix points = Matrix.generateSphere(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
-                edge.add3D(points);
+                poly.addSphere(points);
             }
-            else if (c.equals("torus")){
+            if (c.equals("torus")){
                 n ++;
                 String[] args = commands.get(n).split(" ");
                 Matrix points = Matrix.generateTorus(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]), Double.parseDouble(args[4]));
-                edge.add3D(points);
-            }*/
+                poly.addTorus(points);
+            }
             // END CHANGING STUFF HERE!
             else if (c.equals("clear")){
                 edge = new EdgeMatrix(4, 4);
@@ -149,7 +149,7 @@ public class Parser {
                 //System.out.println(edge);
             }
             else if (c.equals("display")){
-            	i = new Image();
+                i = new Image();
                 Random rand = new Random();
                 int r = rand.nextInt(255);
                 int g = rand.nextInt(255);
@@ -167,13 +167,14 @@ public class Parser {
                 }
             }
             else if (c.equals("save")){
-            	n ++;
-            	i = new Image();
+                n ++;
+                i = new Image();
                 Random rand = new Random();
                 int r = rand.nextInt(255);
                 int g = rand.nextInt(255);
                 int b = rand.nextInt(255);
                 Drawing.drawlines(edge, i, new int[] {r,g,b});
+                Drawing.drawpolygons(poly, i, new int[] {r,g,b});
                 i.draw();
                 Runtime run = Runtime.getRuntime();
                 try {
@@ -185,7 +186,7 @@ public class Parser {
                 }
             }
             else if (c.equals("quit")){
-            	return;
+                return;
             }
             n ++;
         }
